@@ -1,0 +1,65 @@
+div.main {
+  background-image: url("tetris.png");
+  width: 95%;
+  height: 147%;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 0;
+  margin: 5px auto;
+  position: relative;
+}
+
+h1.title {
+  font-family: "Arial";
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  top: 60%;
+  position: relative;
+}
+
+button.play-button {
+  font-family: "Arial";
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  background-color: transparent;
+  text-align: center;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: relative;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: blue;
+  }
+  
+li {
+  float: right;
+  font-family: "Arial";
+  font-size: 12px;
+  font-weight: bold;
+}
+
+li[name="home"] {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #4444ff;
+}
