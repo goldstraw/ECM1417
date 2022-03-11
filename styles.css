@@ -10,27 +10,76 @@ div.main {
   position: relative;
 }
 
+div.welcome, div.register {
+  background-color: #c7c7c7;
+  width: 30%;
+  position: relative;
+  margin: 5px auto;
+  text-align: center;
+  top: 50%;
+  box-shadow: 5px 5px;
+}
+
+div.register {
+  text-align: right;
+}
+
+#board {
+  display: none;
+  background-color: #c7c7c7;
+  height: 43%;
+  position: relative;
+  margin: 5px auto;
+  text-align: right;
+  top: 50%;
+  box-shadow: 5px 5px;
+}
+
+#tetris-bg {
+  background-image: url("tetris-grid-bg.png");
+  background-size: contain;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 0;
+  margin: 5px auto;
+  position: relative;
+}
+
+p.error {
+  color: rgb(255, 60, 0);
+  padding: 2%;
+}
+
+input.register {
+  margin-right: 25%;
+}
+
+input.register-button {
+  margin: 2%;
+  width: 96%
+}
+
 h1.title {
   font-family: "Arial";
   font-size: 30px;
   font-weight: bold;
   color: white;
   text-align: center;
-  top: 60%;
   position: relative;
+  margin: 2%;
 }
 
-button.play-button {
+#play-button {
   font-family: "Arial";
   font-size: 18px;
   font-weight: bold;
   color: white;
   background-color: transparent;
   text-align: center;
-  top: 65%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   position: relative;
+  margin: 2%;
 }
 
 ul {
