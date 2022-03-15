@@ -3,6 +3,7 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <?php
+        ini_set('session.save_path', 'C:\Users\golds\Documents\Programs\ECM1417\savepath');
         session_start();
         $_SESSION["logged_in"] = FALSE;
         $_SESSION["user"] = "";
