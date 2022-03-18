@@ -21,8 +21,8 @@
             if ($password != $confirm) {
                 $error = "Passwords did not match.";
             }
-            $display = isset($_POST['display']) ? "yes" : "no";
-            $sql = "INSERT INTO Users VALUES('$username', '$firstName', '$lastName', '$password', '$display');";
+            $display = isset($_POST['display']) ? 1 : 0;
+            $sql = "INSERT INTO Users VALUES('$username', '$firstName', '$lastName', '$password', $display);";
             
             $sql_check = "SELECT UserName FROM Users WHERE UserName='$username';";
             $result = mysqli_query($link, $sql_check);

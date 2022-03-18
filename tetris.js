@@ -1,3 +1,4 @@
+var score = 0;
 var board = new Array(20);
 
 for (var i = 0; i < board.length; i++) {
@@ -9,14 +10,27 @@ for (var i = 0; i < board.length; i++) {
 
 var shapes = {
     "L" : [[1,1], [1,2], [1,3], [2,3]],
-    "Z" : [[1,1], [2,1], [2,2], [2,3]],
+    "Z" : [[1,1], [2,1], [2,2], [3,2]],
+    "J" : [[2,1], [2,2], [2,3], [1,3]],
     "S" : [[1,2], [2,1], [2,2], [3,1]],
     "T" : [[1,1], [2,1], [2,2], [3,1]],
     "O" : [[1,1], [1,2], [2,1], [2,2]],
     "I" : [[1,1], [1,2], [1,3], [1,4]]
 };
+// I added the "J" piece, and changed the "Z"
+
+var rotations = {
+    "L" : [[[1,-1], [0,0], [-1,1], [0,2]], [[1,1], [0,0], [-1,-1], [-2,0]], [[-1,1], [0,0], [1,-1], [0,-2]], [[-1,-1], [0,0], [1,1], [2,0]]],
+    "Z" : [[[0,-2], [1,-1], [0,0], [1,1]], [[2,0], [1,1], [0,0], [-1,1]], [[0,2], [-1,1], [0,0], [-1,-1]], [[-2,0], [-1,-1], [0,0], [1,-1]]],
+    "J" : [[[1,-1], [0,0], [-1,1], [-2,0]], [[1,1], [0,0], [-1,-1], [0,-2]], [[-1,1], [0,0], [1,-1], [2,0]], [[-1,-1], [0,0], [1,1], [0,2]]],
+    "S" : [[[-1,-1], [1,-1], [0,0], [2,0]], [[1,-1], [1,1], [0,0], [0,2]], [[1,1], [-1,1], [0,0], [-2,0]], [[-1,1], [-1,-1], [0,0], [0,-2]]],
+    "T" : [[[-1,-1], [0,0], [-1,1], [1,1]], [[1,-1], [0,0], [-1,-1], [-1,1]], [[1,1], [0,0], [1,-1], [-1,-1]], [[-1,1], [0,0], [1,1], [1,-1]]],
+    "O" : [[[0,0], [0,0], [0,0], [0,0]], [[0,0], [0,0], [0,0], [0,0]], [[0,0], [0,0], [0,0], [0,0]], [[0,0], [0,0], [0,0], [0,0]]],
+    "I" : [[[2,-1], [1,0], [0,1], [-1,2]], [[1,2], [0,1], [-1,0], [-2,-1]], [[-2,1], [-1,0], [0,-1], [1,-2]], [[-1,-2], [0,-1], [1,0], [2,1]]]
+};
 
 var currentBlock;
+var currentShape;
 var block = new Array(4);
 
 document.onkeydown = keyPress;
@@ -33,8 +47,12 @@ function start_tetris() {
 
 function randomiseBlock() {
     var keys = Object.keys(shapes);
-    var shape = shapes[keys[parseInt(keys.length * Math.random())]];
-    shape = shapes["I"];
+    currentShape = ""
+    while (!["L","Z","J","S","T","O","I"].includes(currentShape)) {
+    currentShape = keys[parseInt(keys.length * Math.random())];
+    }
+    currentRotation = 0;
+    var shape = shapes[currentShape];
     var shapeCopy = [];
 
     for (var i = 0; i < shape.length; i++) {
@@ -72,6 +90,8 @@ function newBlock() {
         block[i].style.left = "6.95vw"
         block[i].style.top = "0.05vw"
     }
+    score += 1;
+    document.getElementById("score").innerHTML = "Score: " + score.toString();
 }
 
 function moveDown() {
@@ -106,6 +126,8 @@ function transformCurrentBlock(right, down) {
     if (finished) {
         for (let i = 0; i < 4; i++) {
             board[currentBlock[i][1]-1][currentBlock[i][0]-1] = block[i];
+            // Instead of storing the id in the board, I store the div itself,
+            // as the specification requires you to have duplicate 'id' values.
         }
         newBlock();
     }
@@ -140,6 +162,29 @@ function transformCurrentBlock(right, down) {
     renderBlock();
 }
 
+function rotate() {
+    let suggestedRotation = (currentRotation + 1) % 4
+    let invalid = false;
+
+    for (let i = 0; i < 4; i++) {
+        let newLeft = rotations[currentShape][suggestedRotation][i][0] + currentBlock[i][0];
+        let newTop = rotations[currentShape][suggestedRotation][i][1] + currentBlock[i][1];
+        if (newLeft <= 0 || newLeft > 10 || newTop <= 0 || newTop > 20) {
+            invalid = true;
+        } else if (board[newTop-1][newLeft-1] != "") {
+            invalid = true;
+        }
+    }
+    if (!invalid) {
+        currentRotation = suggestedRotation;
+        for (let i = 0; i < 4; i++) {
+            currentBlock[i][0] += rotations[currentShape][currentRotation][i][0]
+            currentBlock[i][1] += rotations[currentShape][currentRotation][i][1]
+        }
+        renderBlock();
+    }
+}
+
 function keyPress(e) {
 
     e = e || window.event;
@@ -155,11 +200,26 @@ function keyPress(e) {
     } else if (e.keyCode == '39') {
        // right arrow
        transformCurrentBlock(1, 0);
+    } else if (e.keyCode == '38') {
+        rotate();
     }
 
 }
 
 function gameEnd() {
     clearInterval(intervalID);
-    location.reload();
+    var f = document.createElement("form");
+    f.action="leaderboard.php";
+    f.method="POST";
+    f.target='_self'; 
+    f.style.display = 'none';
+
+    var i=document.createElement("input");
+    i.type= "text";
+    i.name= "score";
+    i.value= score;
+    f.appendChild(i);
+
+    document.body.appendChild(f);
+    f.submit();
 }

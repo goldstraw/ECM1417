@@ -113,10 +113,24 @@ li a:hover {
   background-color: #4444ff;
 }
 
+#score {
+  padding: 2%;
+}
+
 div.block {
   width: 5%;
   height: 5%;
   position: absolute;
+}
+
+table {
+  border-spacing: 2px;
+  margin: auto;
+}
+
+th {
+  background-color: blue;
+  color: white;
 }
 
 #green {

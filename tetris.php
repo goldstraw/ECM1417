@@ -13,7 +13,7 @@
             <div class="welcome">
                 <div id="board">
                     <div id="tetris-bg">
-                        
+                        <p id="score">Score: 0</p>
                     </div>
                 </div>
                 <?php
