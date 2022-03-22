@@ -36,6 +36,8 @@ var block = new Array(4);
 document.onkeydown = keyPress;
 var intervalID;
 
+var audio = new Audio('sounds/soundtrack.mp3');
+
 function start_tetris() {
     document.getElementById("play-button").style.display = 'none';
     document.getElementById("board").style.display = 'block';
@@ -43,6 +45,9 @@ function start_tetris() {
     newBlock();
     renderBlock();
     intervalID = setInterval(moveDown, 1000);
+    audio.currentTime = 0;
+    audio.play();
+    audio.loop = true;
 }
 
 function randomiseBlock() {
@@ -129,6 +134,9 @@ function transformCurrentBlock(right, down) {
             // Instead of storing the id in the board, I store the div itself,
             // as the specification requires you to have duplicate 'id' values.
         }
+        
+        var placedAudio = new Audio('sounds/block-place.mp3');
+        placedAudio.play();
         newBlock();
     }
     for (let y = 0; y < 20; y++) {
@@ -139,6 +147,8 @@ function transformCurrentBlock(right, down) {
             }
         }
         if (complete) {
+            var completeAudio = new Audio('sounds/line-remove.mp3');
+            completeAudio.play();
             for (let y2 = y; y2 >= 0; y2--) {
                 for (let x2 = 0; x2 < 10; x2++) {
                     if (y2 == 0) {
@@ -182,6 +192,8 @@ function rotate() {
             currentBlock[i][1] += rotations[currentShape][currentRotation][i][1]
         }
         renderBlock();
+        var rotateAudio = new Audio('sounds/block-rotate.mp3');
+        rotateAudio.play();
     }
 }
 
