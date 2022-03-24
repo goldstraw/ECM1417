@@ -3,12 +3,11 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <?php
-        ini_set('session.save_path', 'C:\Users\golds\Documents\Programs\ECM1417\savepath');
         session_start();
         $_SESSION["logged_in"] = FALSE;
         $_SESSION["user"] = "";
         $error = "";
-        $link = mysqli_connect('127.0.0.1:3306', "root", "", "tetris");
+        $link = mysqli_connect('127.0.0.1:3306', "charlieg", "WebDev2021", "tetris");
         if (!$link) {
             die('Could not connect: ' . mysqli_error());
         }

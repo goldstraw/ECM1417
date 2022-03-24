@@ -17,7 +17,6 @@
                     </div>
                 </div>
                 <?php
-                    ini_set('session.save_path', 'C:\Users\golds\Documents\Programs\ECM1417\savepath');
                     session_start();
 
                     if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]) {
